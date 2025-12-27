@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="pt-pt">
+<head>
+    <meta charset="UTF-8">
+    <title>SQL Scouting & Performance: Futebol Profissional</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6; color: #333; margin: 0; padding: 20px; background: #eef2f3; }
+        .container { max-width: 950px; margin: auto; background: white; padding: 40px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); border-radius: 8px; }
+        header { border-bottom: 4px solid #1e3799; margin-bottom: 30px; text-align: center; padding-bottom: 20px; }
+        h1 { margin: 0; color: #1e3799; font-size: 26pt; text-transform: uppercase; letter-spacing: 1px; }
+        h2 { border-bottom: 2px solid #4a69bd; color: #4a69bd; padding-bottom: 5px; margin-top: 40px; }
+        .dictionary { width: 100%; border-collapse: collapse; margin-bottom: 30px; font-size: 9.5pt; }
+        .dictionary th, .dictionary td { border: 1px solid #d1d8e0; padding: 12px; text-align: left; }
+        .dictionary th { background-color: #f1f2f6; color: #2f3542; }
+        .exercise { border-left: 6px solid #1e3799; background: #f8f9fa; padding: 20px; margin-bottom: 25px; border-radius: 0 4px 4px 0; page-break-inside: avoid; transition: transform 0.2s; }
+        .tag { font-weight: 800; text-transform: uppercase; font-size: 9pt; color: #eb4d4b; margin-bottom: 8px; display: block; letter-spacing: 0.5px; }
+        .exercise-title { font-weight: bold; color: #2c3e50; display: block; margin-bottom: 12px; font-size: 13pt; line-height: 1.3; }
+        .answers { display: none; margin-top: 60px; border-top: 6px double #1e3799; padding-top: 30px; }
+        pre { background: #1e272e; color: #d2dae2; padding: 20px; overflow-x: auto; font-size: 10pt; border-radius: 5px; }
+        .no-print-btn { background: #1e3799; color: white; padding: 12px 25px; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; }
+        @media print {
+            body { background: white; padding: 0; }
+            .container { box-shadow: none; width: 100%; max-width: 100%; padding: 0; }
+            .no-print { display: none; }
+            .answers { display: block; page-break-before: always; }
+            .exercise { border: 1px solid #d1d8e0; border-left: 6px solid #1e3799; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>Base de Dados de Scouting: Época 2023/24</h1>
+        <p>Domine o SQL através da análise de performance desportiva e gestão de clubes.</p>
+    </header>
+
+    <div class="no-print" style="text-align: right; margin-bottom: 30px;">
+        <button class="no-print-btn" onclick="window.print()">Gerar Versão de Estudo (PDF)</button>
+    </div>
+
+    <h2>Dicionário do Sistema</h2>
+    <table class="dictionary">
+        <tr><th>Tabela</th><th>Atributos Chave</th><th>Finalidade</th></tr>
+        <tr><td>jogadores</td><td>id_jogador (PK), nome, idade, posicao, peso_kg, altura_m, pe_dominante</td><td>Ficha técnica e antropométrica dos atletas.</td></tr>
+        <tr><td>clubes</td><td>id_clube (PK), nome_clube, liga, orcamento_transferencia_milhoes</td><td>Informação financeira e regional dos clubes.</td></tr>
+        <tr><td>contratos</td><td>id_jogador, id_clube, salario_mensal_euros, data_fim_contrato, clausula_rescisao</td><td>Gestão de ativos e prazos contratuais.</td></tr>
+        <tr><td>desempenho</td><td>id_jogador (PK), golos, assistencias, minutos_jogados, cartoes_amarelos</td><td>KPIs (Key Performance Indicators) de campo.</td></tr>
+        <tr><td>departamento_medico</td><td>id_lesao, id_jogador, tipo_lesao, data_inicio, data_retorno</td><td>Histórico clínico e disponibilidade física.</td></tr>
+        <tr><td>patrocinios</td><td>id_patrocinio, id_jogador, marca, valor_anual_euros</td><td>Dados de marketing e valor de marca individual.</td></tr>
+    </table>
+
+    <h2>Lista de Desafios Técnicos</h2>
+
+    <div class="exercise">
+        <span class="tag">Assunto: Cálculos Aritméticos</span>
+        <span class="exercise-title">Cenário 1: Cálculo de Massa Corporal (IMC)</span>
+        O departamento de nutrição quer monitorizar a condição física. Calcule o IMC (Peso / Altura²) de cada jogador, liste o nome, a posição e o IMC. Filtre apenas os atletas com IMC acima de 25 para revisão da dieta.
+    </div>
+
+    <div class="exercise">
+        <span class="tag">Assunto: Agregações (AVG/GROUP BY)</span>
+        <span class="exercise-title">Cenário 2: Média de Idade por Posição</span>
+        A direção quer saber em que setores o plantel está mais envelhecido. Calcule a média de idade dos jogadores agrupada pela posição que ocupam em campo.
+    </div>
+
+    <div class="exercise">
+        <span class="tag">Assunto: Inner Join e Filtros Financeiros</span>
+        <span class="exercise-title">Cenário 3: Folha Salarial da Premier League</span>
+        Liste o nome do jogador, o nome do clube e o salário mensal, mas apenas para jogadores que atuam em clubes da 'Premier League'.
+    </div>
+
+    <div class="exercise">
+        <span class="tag">Assunto: Subconsultas no WHERE</span>
+        <span class="exercise-title">Cenário 4: Goleadores Acima da Média</span>
+        O scouting procura jogadores eficientes. Identifique o nome dos jogadores que marcaram mais golos do que a média de golos de todos os jogadores da base de dados.
+    </div>
+
+    <div class="exercise">
+        <span class="tag">Assunto: Junção de 3 Tabelas</span>
+        <span class="exercise-title">Cenário 5: Valor de Mercado e Marketing</span>
+        Gere um relatório que mostre o Nome do Jogador, o Nome do Clube em que joga e a Marca que o patrocina (Nike, Adidas, etc.).
+    </div>
+
+    <div class="exercise">
+        <span class="tag">Assunto: Filtros Temporais (Date)</span>
+        <span class="exercise-title">Cenário 6: Contratos a Terminar em 2024</span>
+        Identifique os jogadores cujos contratos terminam até o final de Junho de 2024 (Data limite: 2024-06-30). Útil para negociações a custo zero.
+    </div>
+
+    <div class="exercise">
+        <span class="tag">Assunto: Funções de Agregação e Having</span>
+        <span class="exercise-title">Cenário 7: Clubes com Elevado Número de Amarelos</span>
+        Liste os nomes dos clubes que possuem jogadores que, somados, acumulam mais de 10 cartões amarelos nesta época.
+    </div>
+
+    <div class="exercise">
+        <span class="tag">Assunto: Cálculos com Aliases (AS)</span>
+        <span class="exercise-title">Cenário 8: Minutos para Marcar (Eficiência)</span>
+        Calcule a métrica de "Minutos por Golo" (Minutos Jogados / Golos) para todos os atacantes. Nomeie a coluna como 'eficiencia_minutos'.
+    </div>
+
+    <div class="exercise">
+        <span class="tag">Assunto: Operador LIKE e Inversão</span>
+        <span class="exercise-title">Cenário 9: Busca por Patrocínios Específicos</span>
+        Liste todos os jogadores que NÃO são patrocinados por marcas que comecem com a letra 'N' (ex: Nike).
+    </div>
+
+    <div class="exercise">
+        <span class="tag">Assunto: Subconsultas Correlacionadas</span>
+        <span class="exercise-title">Cenário 10: Mais Pesados por Nacionalidade</span>
+        Encontre os jogadores que possuem um peso superior à média de peso de todos os jogadores da sua mesma nacionalidade.
+    </div>
+
+    <div class="exercise">
+        <span class="tag">Assunto: Junções Externas (Left Join)</span>
+        <span class="exercise-title">Cenário 11: Jogadores sem Histórico de Lesão</span>
+        O departamento de scouting quer identificar jogadores "resistentes". Liste todos os jogadores que nunca tiveram um registo na tabela de departamento médico.
+    </div>
+
+    <div class="exercise">
+        <span class="tag">Assunto: Operações Matemáticas Complexas</span>
+        <span class="exercise-title">Cenário 12: Percentagem do Orçamento de Transferência</span>
+        Para cada clube, mostre o nome e que percentagem do seu orçamento de transferência seria gasta se comprassem um jogador pela sua cláusula de rescisão (clausula / orcamento * 100).
+    </div>
+
+    <div class="exercise">
+        <span class="tag">Assunto: Filtros Lógicos Múltiplos</span>
+        <span class="exercise-title">Cenário 13: Perfil para Contra-Ataque</span>
+        Procure jogadores que sejam do 'Ataque', com 'Pé Dominante' Esquerdo (E) e que tenham uma 'Altura' superior a 1.80m.
+    </div>
+
+    <div class="exercise">
+        <span class="tag">Assunto: Distinct e Ordenação</span>
+        <span class="exercise-title">Cenário 14: Países Representados</span>
+        Apresente uma lista única e por ordem alfabética de todas as nacionalidades presentes nos clubes da 'La Liga'.
+    </div>
+
+    <div class="exercise">
+        <span class="tag">Assunto: Agrupamento com Count</span>
+        <span class="exercise-title">Cenário 15: Concentração de Estrelas por Marca</span>
+        Conte quantos jogadores cada marca de material desportivo (Nike, Adidas, etc.) patrocina. Ordene da marca com mais atletas para a que tem menos.
+    </div>
+
+    <div class="exercise">
+        <span class="tag">Assunto: Junção Interna e Filtro Numérico</span>
+        <span class="exercise-title">Cenário 16: Criativos de Elite</span>
+        Liste o nome dos jogadores e o número de assistências para todos aqueles que fizeram mais de 10 assistências e jogam no 'Meio'.
+    </div>
+
+    <div class="exercise">
+        <span class="tag">Assunto: Operador BETWEEN</span>
+        <span class="exercise-title">Cenário 17: Jogadores na "Idade de Ouro"</span>
+        Selecione os atletas que têm idade entre 25 e 28 anos e que já jogaram mais de 25 partidas nesta época.
+    </div>
+
+    <div class="exercise">
+        <span class="tag">Assunto: Subconsultas EXISTS</span>
+        <span class="exercise-title">Cenário 18: Médios Goleadores</span>
+        Identifique os clubes que possuem pelo menos um jogador do 'Meio' que tenha marcado mais de 5 golos.
+    </div>
+
+    <div class="exercise">
+        <span class="tag">Assunto: Operador IN e Junções</span>
+        <span class="exercise-title">Cenário 19: Scouting na Liga Portugal</span>
+        Liste os nomes e salários dos jogadores que atuam no 'Benfica', 'Sporting CP' ou 'FC Porto'.
+    </div>
+
+    <div class="exercise">
+        <span class="tag">Assunto: Média e Filtro Geográfico</span>
+        <span class="exercise-title">Cenário 20: Investimento em Marketing por Liga</span>
+        Calcule o valor total de patrocínios anuais agrupado pela 'Liga' em que o jogador atua.
+    </div>
+
+    <div class="exercise">
+        <span class="tag">Assunto: Cálculos Temporais (DATEDIFF/Subtração)</span>
+        <span class="exercise-title">Cenário 21: Tempo Médio de Recuperação</span>
+        Calcule a média de dias que os jogadores levam para recuperar das lesões (data_retorno - data_inicio) agrupado pelo 'Tipo de Lesão'.
+    </div>
+
+    <div class="exercise">
+        <span class="tag">Assunto: Agrupamento Múltiplo</span>
+        <span class="exercise-title">Cenário 22: Média Salarial por Posição e Liga</span>
+        Descubra qual a média de salário mensal para cada 'Posição' dentro de cada 'Liga' (ex: Atacantes na Premier League vs Atacantes na La Liga).
+    </div>
+
+    <div class="exercise">
+        <span class="tag">Assunto: Filtros com CASE WHEN (Lógica)</span>
+        <span class="exercise-title">Cenário 23: Classificação de Cláusula de Rescisão</span>
+        Crie uma coluna chamada 'categoria_mercado' onde: cláusulas > 500M são 'Inalcançável', entre 100M e 500M são 'Elite' e < 100M 'Acessível'.
+    </div>
+
+    <div class="exercise">
+        <span class="tag">Assunto: Subconsultas com MAX</span>
+        <span class="exercise-title">Cenário 24: O Mais Bem Pago do Clube</span>
+        Mostre o nome do jogador e o salário do atleta que recebe o maior salário dentro do 'Real Madrid'.
+    </div>
+
+    <div class="exercise">
+        <span class="tag">Assunto: Union de Resultados</span>
+        <span class="exercise-title">Cenário 25: Lista de Entidades Desportivas</span>
+        Una numa única lista os nomes dos jogadores e os nomes dos clubes para uma pesquisa global no sistema.
+    </div>
+
+    <div class="exercise">
+        <span class="tag">Assunto: Junções com Filtros Médicos</span>
+        <span class="exercise-title">Cenário 26: Impacto de Lesões Musculares</span>
+        Liste o nome dos jogadores que tiveram 'Lesão Muscular' e quantos minutos jogaram no total nesta época.
+    </div>
+
+    <div class="exercise">
+        <span class="tag">Assunto: Agregações com Cálculos de Rate</span>
+        <span class="exercise-title">Cenário 27: Goleiros com Participação em Golos</span>
+        Identifique se existe algum 'Goleiro' que tenha feito pelo menos uma assistência nesta época. Exiba nome e clube.
+    </div>
+
+    <div class="exercise">
+        <span class="tag">Assunto: Subconsultas NOT IN</span>
+        <span class="exercise-title">Cenário 28: Clubes sem Jogadores Patrocinados</span>
+        Encontre os clubes que não possuem nenhum jogador com contrato de patrocínio registado na tabela de patrocínios.
+    </div>
+
+    <div class="exercise">
+        <span class="tag">Assunto: Filtros de Texto e Ordem</span>
+        <span class="exercise-title">Cenário 29: Scouting de Jogadores Portugueses</span>
+        Liste todos os jogadores portugueses, ordenando-os pela idade (do mais velho para o mais novo).
+    </div>
+
+    <div class="exercise">
+        <span class="tag">Assunto: Resumo Final de Scouting</span>
+        <span class="exercise-title">Cenário 30: Ficha Completa de Atleta</span>
+        Gere uma ficha que contenha: Nome do Jogador, Clube, Golos, Salário Mensal e Marca do Patrocínio para todos os jogadores que marcaram mais de 20 golos.
+    </div>
+
+    <div class="answers">
+        <h2>Gabarito Técnico (Lógica SQL)</h2>
+        <pre>
+-- 1. IMC > 25
+SELECT nome, (peso_kg / (altura_m * altura_m)) AS imc 
+FROM jogadores WHERE (peso_kg / (altura_m * altura_m)) > 25;
+
+-- 4. Golos acima da média
+SELECT nome FROM jogadores j JOIN desempenho d ON j.id_jogador = d.id_jogador
+WHERE d.golos > (SELECT AVG(golos) FROM desempenho);
+
+-- 6. Contratos a terminar
+SELECT j.nome, c.data_fim_contrato FROM jogadores j JOIN contratos c ON j.id_jogador = c.id_jogador
+WHERE c.data_fim_contrato <= '2024-06-30';
+
+-- 11. Jogadores sem lesões (Left Join)
+SELECT j.nome FROM jogadores j LEFT JOIN departamento_medico dm ON j.id_jogador = dm.id_jogador
+WHERE dm.id_lesao IS NULL;
+
+-- 23. Classificação com CASE (Lógica básica)
+SELECT j.nome, 
+  CASE WHEN c.clausula_rescisao_milhoes > 500 THEN 'Inalcançável'
+       WHEN c.clausula_rescisao_milhoes >= 100 THEN 'Elite'
+       ELSE 'Acessível' END AS categoria_mercado
+FROM jogadores j JOIN contratos c ON j.id_jogador = c.id_jogador;
+        </pre>
+    </div>
+</div>
+
+</body>
+</html>
+
