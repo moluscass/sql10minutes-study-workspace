@@ -8,7 +8,7 @@ SELECT
 FROM
 	jogadores AS j
 WHERE
-	j.peso_kg/(j.altura_m*2) BETWEEN 18.5 AND 25
+	j.peso_kg/(j.altura_m*2) > 25 -- Não possui nenhum jogador acima do peso
  ORDER BY
 	j.nome;
     
@@ -57,7 +57,7 @@ ORDER BY
     
 -- 5: Gere um relatório que mostre o Nome do Jogador, o Nome do Clube em que joga e a Marca que o patrocina (Nike, Adidas, etc.).
 SELECT
-	j.nome AS nome_jogador,
+	j.nome,
 	cb.nome_clube,
     p.marca
 FROM
@@ -112,7 +112,7 @@ FROM
     desempenho AS d
 WHERE
 	j.id_jogador=d.id_jogador
-		AND j.posicao != 'Goleiro';
+		AND j.posicao = 'Ataque';
         
 -- 9: Liste todos os jogadores que NÃO são patrocinados por marcas que comecem com a letra 'N' (ex: Nike).
 SELECT
